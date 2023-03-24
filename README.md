@@ -3,6 +3,7 @@
 ### On Windows
 - Be sure to have python installed (better if >=3.7)
 - run install-req.bat or optionally run `pip install -r requirements.txt`
+- create a folder called tracked
 - set up the user agent simply by googling "my user agent" and replacing the values in the useragent.txt file
 - Now add URLs to your item list, item lists are different for each website
 - Now run the tracker for the specific website
@@ -13,6 +14,7 @@
 ### On Ubuntu
 * Open current folder in terminal (right click -> open in terminal)
 * run `bash install-req.sh`
+* create a folder called tracked
 * set up the user agent simply by googling "my user agent" and replacing the values in the useragent.txt file
 * execute the tracker with `bash amazon-tracker.sh` or `bash ebay-tracker.sh` or any `bash {vendor}-tracker.sh`
 ---

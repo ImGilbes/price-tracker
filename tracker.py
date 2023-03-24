@@ -38,20 +38,24 @@ for url in lines:
         if page.status_code == 200:
             soup = BeautifulSoup(page.content, 'html.parser')
 
-            title = soup.find(id='productTitle').get_text()
+            if vendor == "amz":
+                title = soup.find(id='productTitle').get_text()
+                subtitle = soup.find(id='productSubtitle').get_text()
+                # info = soup.find(id='bylineInfo').get_text()
+                price = soup.find("span", {'class':'a-size-base a-color-price a-color-price'}).get_text().strip().strip('€').replace(',','.')
+                price = float(price) # easy way to remove a weird non-displayable character
+
+            elif vendor == "ebay":
+                title = soup.find("h1",{'class':'x-item-title__mainTitle'}).find("span", {'class':'ux-textspans ux-textspans--BOLD'}).get_text().strip()
+                price = soup.find("span", {'itemprop': 'price'})['content']
+                price = float(price)
+                subtitle = "ebay"
+
             title = "".join(c for c in title if c.isalnum()) #remove all non alphanumeric
-
-            subtitle = soup.find(id='productSubtitle').get_text()
             subtitle="".join(c for c in subtitle if c.isalnum())
-
-            # info = soup.find(id='bylineInfo').get_text()
-            price = soup.find("span", {'class':'a-size-base a-color-price a-color-price'}).get_text().strip().strip('€').replace(',','.')
-            price = float(price) # easy way to remove a weird non-displayable character
+                
             
-            print(title)
-            print(subtitle)
-            print(price)
-
+            print(f"- Found {title} {subtitle} {price} \n")
             
             fname = title + '-' + subtitle
             # fname = "".join(c for c in fname if c.isalnum())

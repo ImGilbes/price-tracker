@@ -43,7 +43,7 @@ for filename in os.listdir(path_of_the_directory):
             mean[titles[0]] = df["price"].mean()
             var[titles[0]] = df["price"].var()
 
-            sns.lineplot(x = "date", y = "price", label = titles[0] , data = df, ax=ax)
+            sns.lineplot(x = "date", y = "price", label = titles[0] , data = df, ax=ax,marker='o')
 
 for obj in mean.keys():
     printstr = f"- Article: {obj}, price: {lastprice[obj]:.2f}, mean: {mean[obj]:.2f}, variance: {var[obj]:.2f} \n"
