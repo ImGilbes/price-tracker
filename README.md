@@ -16,6 +16,14 @@
 * set up the user agent simply by googling "my user agent" and replacing the values in the useragent.txt file
 * execute the tracker with `bash amazon-tracker.sh` or `bash ebay-tracker.sh` or any `bash {vendor}-tracker.sh`
 ---
+
+### Exception List
+If you want to track an item, but you're not currently interested in seeing its price variations,
+add the file name to the exceptionlist variable in analysis.py. The variable is at the beginning of the file.
+Simply add `exceptionList.append("<nome_del_file>")`
+in the file there is already an example of how to do this
+
+
 * In the .csv file the price are reported in chronological oreder. Thta mean that the last line of the file should always be the newest, whereas the first line is the oldest.
 
 * Use tracker to update the newset prices, then plot with analyzer

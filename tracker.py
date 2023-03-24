@@ -33,36 +33,37 @@ if not lines:
     exit(0)
 
 for url in lines:
-    page = requests.get(url, headers=headers)
-    if page.status_code == 200:
-        soup = BeautifulSoup(page.content, 'html.parser')
+    if url != "": 
+        page = requests.get(url, headers=headers)
+        if page.status_code == 200:
+            soup = BeautifulSoup(page.content, 'html.parser')
 
-        title = soup.find(id='productTitle').get_text()
-        title = "".join(c for c in title if c.isalnum()) #remove all non alphanumeric
+            title = soup.find(id='productTitle').get_text()
+            title = "".join(c for c in title if c.isalnum()) #remove all non alphanumeric
 
-        subtitle = soup.find(id='productSubtitle').get_text()
-        subtitle="".join(c for c in subtitle if c.isalnum())
+            subtitle = soup.find(id='productSubtitle').get_text()
+            subtitle="".join(c for c in subtitle if c.isalnum())
 
-        # info = soup.find(id='bylineInfo').get_text()
-        price = soup.find("span", {'class':'a-size-base a-color-price a-color-price'}).get_text().strip().strip('€').replace(',','.')
-        price = float(price) # easy way to remove a weird non-displayable character
-        
-        print(title)
-        print(subtitle)
-        print(price)
+            # info = soup.find(id='bylineInfo').get_text()
+            price = soup.find("span", {'class':'a-size-base a-color-price a-color-price'}).get_text().strip().strip('€').replace(',','.')
+            price = float(price) # easy way to remove a weird non-displayable character
+            
+            print(title)
+            print(subtitle)
+            print(price)
 
-        
-        fname = title + '-' + subtitle
-        # fname = "".join(c for c in fname if c.isalnum())
-        path = './tracked/'+ fname
-        if os.path.exists(path):
-            f = open(path, "a")
+            
+            fname = title + '-' + subtitle
+            # fname = "".join(c for c in fname if c.isalnum())
+            path = './tracked/'+ fname
+            if os.path.exists(path):
+                f = open(path, "a")
+            else:
+                f = open(path, 'w')
+                f.write("date,price\n") # setup the csv if you're creating it
+
+            f.write(str(date.today()) + ',' + str(price) + '\n')
+            f.close()
+
         else:
-            f = open(path, 'w')
-            f.write("date,price\n") # setup the csv if you're creating it
-
-        f.write(str(date.today()) + ',' + str(price) + '\n')
-        f.close()
-
-    else:
-        print("Page currently unavailable, url = " + url)
+            print("Page currently unavailable, url = " + url)

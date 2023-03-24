@@ -4,6 +4,9 @@ import pandas as pd
 import os
 import sys
 
+exceptionList = ["pippo", "paperino"]
+exceptionList.append("TheJokeFaberModernClassics-Copertinaflessibile4agosto2016")
+
 vendor = ""
 vendor_list = ["amz", "ebay", "zalando"]
 if len(sys.argv) > 1:
@@ -29,15 +32,18 @@ path_of_the_directory= './tracked'
 for filename in os.listdir(path_of_the_directory):
     f = os.path.join(path_of_the_directory,filename)
     if os.path.isfile(f):
-        df=pd.read_csv(f)
+        if filename not in exceptionList:
+            df=pd.read_csv(f)
 
-        titles = filename.split('-') #titles[0] is the title, titles[1] is thw subtitle
+            titles = filename.split('-') #titles[0] is the title, titles[1] is thw subtitle
+            if len(titles[0]) > 20:
+                titles[0] = titles[0][0:20]
 
-        lastprice[titles[0]] = df["price"].iloc[-1]
-        mean[titles[0]] = df["price"].mean()
-        var[titles[0]] = df["price"].var()
+            lastprice[titles[0]] = df["price"].iloc[-1]
+            mean[titles[0]] = df["price"].mean()
+            var[titles[0]] = df["price"].var()
 
-        sns.lineplot(x = "date", y = "price", label = titles[0] , data = df, ax=ax)
+            sns.lineplot(x = "date", y = "price", label = titles[0] , data = df, ax=ax)
 
 for obj in mean.keys():
     printstr = f"- Article: {obj}, price: {lastprice[obj]:.2f}, mean: {mean[obj]:.2f}, variance: {var[obj]:.2f} \n"
